@@ -4,39 +4,36 @@ import plotly.express as px
 
 st.title("Análise de Vendas de Carros Usados")
 
-# Carregar dados (substitua pelo caminho correto do seu conjunto de dados)
+# Carregar dados
 df = pd.read_csv('vehicles.csv')
 
 # Exibir as primeiras linhas do DataFrame
 st.write(df.head())
 
-# Botão para Criar um Histograma
-hist_button = st.button('Criar Histograma')
+# Caixa de Seleção para Criar Histograma
+hist_checkbox = st.checkbox('Criar Histograma')
 
-if hist_button:
+if hist_checkbox:
     st.write('Criando um histograma para a coluna price')
-    fig = px.histogram(df, x='price', nbins=50, title='Distribuição de Preços')
-    st.plotly_chart(fig, use_container_width=True)
+    fig_hist = px.histogram(df, x='price', nbins=50,
+                            title='Distribuição de Preços')
+    st.plotly_chart(fig_hist, use_container_width=True)
 
-# Botão para Criar um Gráfico de Dispersão
-scatter_button = st.button('Criar Gráfico de Dispersão')
+    # Caixa de Seleção para Criar Gráfico de Dispersão
+    scatter_checkbox = st.checkbox('Criar Gráfico de Dispersão', value=True)
 
-if scatter_button:
-    st.write('Criando um gráfico de dispersão para Preço vs. Quilometragem')
-    fig = px.scatter(df, x='price', y='odometer',
-                     title='Preço vs. Quilometragem')
-    st.plotly_chart(fig, use_container_width=True)
+    if scatter_checkbox:
+        st.write('Criando um gráfico de dispersão para Preço vs. Quilometragem')
+        fig_scatter = px.scatter(
+            df, x='price', y='odometer', title='Preço vs. Quilometragem')
+        st.plotly_chart(fig_scatter, use_container_width=True)
 
-# Gráfico de Barras: Contagem por Tipo de Carro com cores contrastantes
-fig = px.bar(df, x='type', title='Contagem por Tipo de Carro',
-             color='type',
-             color_discrete_sequence=px.colors.qualitative.Bold)  # Usando cores contrastantes
-st.plotly_chart(fig, use_container_width=True)
+        # Caixa de Seleção para Criar Gráfico de Barras
+        bar_checkbox = st.checkbox('Criar Gráfico de Barras', value=True)
 
-# Caixa de Seleção para Criar um Histograma
-build_histogram = st.checkbox('Criar um histograma')
-
-if build_histogram:
-    st.write('Criando um histograma para a coluna odometer')
-    fig = px.histogram(df, x='odometer')
-    st.plotly_chart(fig, use_container_width=True)
+        if bar_checkbox:
+            st.write('Criando um gráfico de barras para Contagem por Tipo de Carro')
+            fig_bar = px.bar(df, x='type', title='Contagem por Tipo de Carro',
+                             color='type',
+                             color_discrete_sequence=px.colors.qualitative.Bold)  # Usando cores contrastantes
+            st.plotly_chart(fig_bar, use_container_width=True)
